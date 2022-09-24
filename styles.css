@@ -2,8 +2,33 @@ body {
     background-color: #F3F5FC;
 }
 
+.wrapper {
+    display: flex;
+    flex-flow: column;
+    min-height: 99vh;
+
+    border: 3px solid darkorchid;
+}
+
 header {
     display: flex;
+
     border: 2px solid red;
-    padding: 4px 0px;
+}
+
+.main-app {
+    display: flex;
+    flex-flow: column;
+    flex-grow: 8;
+
+
+    border: 2px solid green;
+}
+
+.botones {
+    display: flex;
+    flex-flow: column;
+    flex-grow: 1;
+
+    border: 2px solid cyan;
 }
