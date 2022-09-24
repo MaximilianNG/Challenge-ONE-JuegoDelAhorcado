@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/12b91aa229.js" crossorigin="anonymous"></script>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 
     <title>Ahorcado</title>
 </head>
@@ -24,13 +24,14 @@
 
         <section class="main-app">
             <div class="palabra-nueva">Ingrese palabra nueva</div>
-            <div class="horca">Dibujo de la horca</div>
-            <div class="palabra">Palabra correcta</div>
+            <canvas class="horca"></canvas>
+            <canvas class="letras-correctas"></canvas>
+            <canvas class="rayitas"></canvas>
             <div class="errores">Errores</div>
         </section>
     
         <section class="botones">
-            <button class="boton1">Iniciar juego</button>
+            <button class="boton1" onclick="iniciarJuego()">Iniciar juego</button>
             <button class="boton2">Agregar nueva palabra</button>
         </section>
 
