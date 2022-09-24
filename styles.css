@@ -33,8 +33,34 @@ header {
     display: flex;
     flex-flow: column;
     flex-grow: 1;
+    align-items: center;
+    justify-content: center;
 
     border: 2px solid cyan;
+}
+
+button {
+    font-family: 'Inter';
+}
+
+.boton1 {
+    border-radius: 24px;
+    background-color: #0A3871;
+    color: white;
+    font-size: 1.3rem;
+    min-height: 6rem;
+    min-width: 15rem;
+    max-width: 22rem;
+}
+
+.boton2 {
+    border-radius: 24px;
+    background-color: whitesmoke;
+    color: #0A3871;
+    font-size: 1.15rem;
+    min-height: 4rem;
+    min-width: 12rem;
+    max-width: 19rem;
 }
 
 footer {
