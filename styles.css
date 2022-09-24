@@ -1,0 +1,9 @@
+body {
+    background-color: #F3F5FC;
+}
+
+header {
+    display: flex;
+    border: 2px solid red;
+    padding: 4px 0px;
+}
