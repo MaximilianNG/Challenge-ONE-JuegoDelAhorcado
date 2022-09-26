@@ -24,7 +24,7 @@ header {
     display: none;
     flex-flow: column;
     flex-grow: 8;
-    gap: 0.5rem;
+    gap: 0.3rem;
 
     border: 2px solid green;
 }
@@ -37,21 +37,16 @@ header {
     display: none;
     background-color: antiquewhite;
     max-width: 600px;
-    min-height: 300px;
-    max-height: 600px;
+    max-height: 300px;
 }
 
 .letras-correctas {
     display: none;
-    background-color: darkgrey;
-    max-width: 600px;
-    height: 4rem;
+    height: 3rem;
 }
 
 .rayitas {
     display: none;
-    background-color: gainsboro;
-    max-width: 600px;
     max-height: 5px;
 }
 

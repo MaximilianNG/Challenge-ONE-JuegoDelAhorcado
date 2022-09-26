@@ -6,10 +6,8 @@ const rayitas = document.querySelector(".rayitas");
 const boton1 = document.querySelector(".boton1");
 const boton2 = document.querySelector(".boton2");
 
-let palabrasSecretas = ["PERRO", "GATO", "MALALA", "BICHO", "DUDI", "MONTESANTO", "GENIO",
-"ESPALDA", "DOLOR", "FRACASADO", "PAJARITO", "ABDOMINALES", "DADDY", "TORSO", "DILDO",
-"CELESTE", "CHETO", "MIERDA"];
-//Tiene 18 palabras.
+let palabrasSecretas = ["PERRO", "GATO", "MALALA", "DINERO", "DUDI", "MONTESANTO", "GENIO",
+"ESPALDA", "DOLOR", "FRACASADO", "PAJARITO", "TORSO", "CHETO"];
 
 let palabraSecreta = "";
 
@@ -36,15 +34,97 @@ function iniciarJuego() {
 
 function elegirPalabraSecreta() {
     palabraSecreta = palabrasSecretas[Math.floor(Math.random() * palabrasSecretas.length)];
-    console.log(palabraSecreta);
 }
 
 function dibujarLineas() {
-    const contexto = horca.getContext("2d");
-    contexto.strokeStyle = "darkblue";
+    let rayitasHeight = rayitas.height;
+    let lineSize = (calcularTamañoDelDash() + 3) * palabraSecreta.length;
+    let principio = calcularStartDelDash(lineSize);
+    let final = principio + lineSize;
+    let baseline = rayitasHeight-1;
+
+    const contexto = rayitas.getContext("2d");
+
+    contexto.canvas.width = window.innerWidth;
+
     contexto.lineWidth = 2;
+    contexto.setLineDash([calcularTamañoDelDash(), 3]);
+
+    contexto.strokeStyle = "#0A3871";
     contexto.beginPath();
-    contexto.moveTo(10, 375);
-    contexto.lineTo(48, 375);
+    contexto.moveTo(principio, baseline);
+    contexto.lineTo(final, baseline);
     contexto.stroke();
+    contexto.closePath();
+    dibujarLetrasCorrectas(principio);
+    dibujarHorca();
+}
+
+function dibujarLetrasCorrectas(principio) {
+    const contexto = letrasCorrectas.getContext("2d");
+    contexto.canvas.width = window.innerWidth;
+    let baseline = letrasCorrectas.height - 1;
+    contexto.fillStyle = "#0A3871";
+
+    if (window.innerWidth >= 270 && window.innerWidth <= 412) {
+        let posición = principio;
+        let gap = 3;
+        contexto.font = "bold 2.6rem monospace";
+        for (let i = 0; i < palabraSecreta.length; i++) {
+            let letraWidth = contexto.measureText(palabraSecreta[i]).width;
+            contexto.fillText(palabraSecreta[i], posición, baseline);
+            contexto.moveTo((posición + letraWidth + gap), baseline);
+            posición = posición + letraWidth + gap;
+        }
+    }
+
+    if (window.innerWidth >= 413 && window.innerWidth <= 912) {
+        let posición = principio;
+        let gap = 3;
+        contexto.font = "bold 3.3rem monospace";
+        for (let i = 0; i < palabraSecreta.length; i++) {
+            let letraWidth = contexto.measureText(palabraSecreta[i]).width;
+            contexto.fillText(palabraSecreta[i], posición, baseline);
+            contexto.moveTo((posición + letraWidth + gap), baseline);
+            posición = posición + letraWidth + gap;
+        }
+    }
+
+    if (window.innerWidth >= 913) {
+        let posición = principio;
+        let gap = 3;
+        contexto.font = "bold 4rem monospace";
+        for (let i = 0; i < palabraSecreta.length; i++) {
+            let letraWidth = contexto.measureText(palabraSecreta[i]).width;
+            contexto.fillText(palabraSecreta[i], posición, baseline);
+            contexto.moveTo((posición + letraWidth + gap), baseline);
+            posición = posición + letraWidth + gap;
+        }
+    }
+}
+
+function calcularTamañoDelDash() {
+    let tamaño = 0;
+    if (window.innerWidth >= 270 && window.innerWidth <= 412) {
+        tamaño = 23;
+    }
+    if (window.innerWidth >= 413 && window.innerWidth <= 912) {
+        tamaño = 29;
+    }
+    if (window.innerWidth >= 913) {
+        tamaño = 35;
+    }
+    return tamaño;
+}
+
+function calcularStartDelDash(lineSize) {
+    let centroRayitas = window.innerWidth / 2;
+    let origin = lineSize / 2;
+    let start = centroRayitas - origin;
+    return start;
+}
+
+function dibujarHorca() {
+    const contexto = horca.getContext("2d");
+    contexto.canvas.width = window.innerWidth;
 }
