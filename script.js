@@ -33,7 +33,8 @@ function iniciarJuego() {
 }
 
 function elegirPalabraSecreta() {
-    palabraSecreta = palabrasSecretas[Math.floor(Math.random() * palabrasSecretas.length)];
+    //palabraSecreta = palabrasSecretas[Math.floor(Math.random() * palabrasSecretas.length)];
+    palabraSecreta = "MONTESANTO";
 }
 
 function dibujarLineas() {
@@ -68,11 +69,11 @@ function dibujarLetrasCorrectas(principio) {
 
     if (window.innerWidth >= 270 && window.innerWidth <= 412) {
         let posición = principio;
-        let gap = 3;
+        let gap = 4;
         contexto.font = "bold 2.6rem monospace";
         for (let i = 0; i < palabraSecreta.length; i++) {
             let letraWidth = contexto.measureText(palabraSecreta[i]).width;
-            contexto.fillText(palabraSecreta[i], posición, baseline);
+            contexto.fillText(palabraSecreta[i], (posición - gap), baseline);
             contexto.moveTo((posición + letraWidth + gap), baseline);
             posición = posición + letraWidth + gap;
         }
@@ -80,11 +81,11 @@ function dibujarLetrasCorrectas(principio) {
 
     if (window.innerWidth >= 413 && window.innerWidth <= 912) {
         let posición = principio;
-        let gap = 3;
+        let gap = 4;
         contexto.font = "bold 3.3rem monospace";
         for (let i = 0; i < palabraSecreta.length; i++) {
             let letraWidth = contexto.measureText(palabraSecreta[i]).width;
-            contexto.fillText(palabraSecreta[i], posición, baseline);
+            contexto.fillText(palabraSecreta[i], (posición - gap), baseline);
             contexto.moveTo((posición + letraWidth + gap), baseline);
             posición = posición + letraWidth + gap;
         }
@@ -92,11 +93,11 @@ function dibujarLetrasCorrectas(principio) {
 
     if (window.innerWidth >= 913) {
         let posición = principio;
-        let gap = 3;
+        let gap = 4;
         contexto.font = "bold 4rem monospace";
         for (let i = 0; i < palabraSecreta.length; i++) {
             let letraWidth = contexto.measureText(palabraSecreta[i]).width;
-            contexto.fillText(palabraSecreta[i], posición, baseline);
+            contexto.fillText(palabraSecreta[i], (posición - gap), baseline);
             contexto.moveTo((posición + letraWidth + gap), baseline);
             posición = posición + letraWidth + gap;
         }
@@ -126,5 +127,31 @@ function calcularStartDelDash(lineSize) {
 
 function dibujarHorca() {
     const contexto = horca.getContext("2d");
-    contexto.canvas.width = window.innerWidth;
+    let horcaWidth = window.innerWidth - 15;
+    if (horcaWidth > 400) {
+        horcaWidth = 400;
+    }
+    contexto.canvas.width = horcaWidth;
+    let horcaHeight = contexto.canvas.height;
+    let baseline = horcaHeight - 25;
+    let baseStart = horcaWidth / 7;
+    let baseEnd = (baseStart * 6) - 15;
+    let baseMiddleOff = (baseEnd / 2) - 35;
+    let top = horcaHeight / 10;
+    let topBar = (horcaWidth / 5) * 3.5;
+
+    contexto.lineWidth = 3;
+    contexto.strokeStyle = "#0A3871";
+    contexto.beginPath();
+    contexto.moveTo(baseStart, baseline);
+    contexto.lineTo(baseEnd, baseline);
+    contexto.stroke();
+    //Acá termina la base.
+    contexto.moveTo(baseMiddleOff, baseline);
+    contexto.lineTo(baseMiddleOff, top);
+    contexto.lineTo(topBar, top);
+    contexto.lineTo(topBar, (top+30));
+    contexto.stroke();
+    //Acá termina la horca en sí.
+    contexto.closePath();
 }
