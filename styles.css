@@ -25,7 +25,7 @@ header {
     flex-flow: column;
     flex-grow: 8;
     gap: 0.1rem;
-    justify-content: center;
+    justify-content: top;
     align-items: center;
 
     border: 2px solid green;
@@ -37,7 +37,6 @@ header {
 
 .horca {
     display: none;
-    background-color: antiquewhite;
     max-width: 600px;
     height: 350px;
     padding-bottom: 2vh;
@@ -54,7 +53,11 @@ header {
 }
 
 .errores {
-    display: none;
+    padding-top: 2vh;
+    font-family: "Inter";
+    font-weight: bolder;
+    font-size: 1.2rem;
+    letter-spacing: 0.6vw;
 }
 
 .botones {
@@ -64,6 +67,7 @@ header {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    padding-top: 0.7vh;
 
     border: 2px solid cyan;
 }
@@ -84,10 +88,10 @@ button {
 
 .boton2 {
     border-radius: 24px;
-    background-color: whitesmoke;
+    background-color: #F3F5FC;
     color: #0A3871;
     font-size: 1rem;
-    min-height: 3rem;
+    min-height: 2.6rem;
     min-width: 12rem;
     max-width: 15rem;
 }

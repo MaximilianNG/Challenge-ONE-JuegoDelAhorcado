@@ -3,6 +3,7 @@ const palabraNueva = document.querySelector(".palabra-nueva");
 const horca = document.querySelector(".horca");
 const letrasCorrectas = document.querySelector(".letras-correctas");
 const rayitas = document.querySelector(".rayitas");
+const errores = document.querySelector(".errores");
 const boton1 = document.querySelector(".boton1");
 const boton2 = document.querySelector(".boton2");
 
@@ -10,37 +11,84 @@ let palabrasSecretas = ["PERRO", "GATO", "MALALA", "DINERO", "DUDI", "MONTESANTO
 "ESPALDA", "DOLOR", "FRACASADO", "PAJARITO", "TORSO", "CHETO"];
 
 let palabraSecreta = "";
+let principio = 0;
+let aciertos = [];
+let vidas = 8;
+let aciertosNecesarios = 0;
+let caracteresVálidos = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Ñ",
+"O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
 function iniciarJuego() {
     mainApp.style.display = "flex";
-    
     horca.style.display = "inherit";
-
     letrasCorrectas.style.display = "inherit";
-
     rayitas.style.display = "inherit";
 
-    boton1.style.minHeight = "3rem";
+    boton1.style.minHeight = "2.6rem";
     boton1.innerHTML = "Nuevo juego";
     boton1.style.fontSize = "1rem";
     boton1.style.width = "15rem";
+    boton1.onclick = clear;
 
     boton2.style.width = "15rem";
     boton2.innerHTML = "Desistir";
 
     elegirPalabraSecreta();
     dibujarLineas();
+    jugar();
+}
+
+function jugar() {
+    window.addEventListener("keydown", (e) => {
+        let tecla = e.key.toUpperCase();
+        if (vidas <= 0) {
+            console.log("YA PERDISTES.");
+        } else {
+            if (palabraSecreta.includes(tecla)) {
+                if (aciertos.includes(tecla)) {
+                    console.log("Tecla correcta repetida.");
+                } else {
+                    aciertos.push(tecla);
+                    console.log(aciertos);
+                    dibujarLetrasCorrectas(principio, aciertos);
+                    if (aciertos.length == aciertosNecesarios) {
+                        console.log("GANASTESS.");
+                    }
+                }
+            } else {
+                    if (!caracteresVálidos.includes(tecla)) {
+                        console.log("No es una tecla válida.");
+                    } else {
+                        if (errores.innerHTML.includes(tecla)) {
+                            console.log("Tecla incorrecta repetida.");
+                        } else {
+                            errores.innerHTML = errores.innerHTML + " " + tecla;
+                            vidas = vidas - 1;
+                            dibujarHorca(vidas);
+                            console.log("Vidas left: " + vidas);
+                        }
+                    }
+            } 
+        }    
+    })
 }
 
 function elegirPalabraSecreta() {
-    //palabraSecreta = palabrasSecretas[Math.floor(Math.random() * palabrasSecretas.length)];
-    palabraSecreta = "MONTESANTO";
+    palabraSecreta = palabrasSecretas[Math.floor(Math.random() * palabrasSecretas.length)];
+    let sinRepetir = [];
+    for (let i = 0; i < palabraSecreta.length; i++) {
+        if (!sinRepetir.includes(palabraSecreta[i])) {
+            sinRepetir.push(palabraSecreta[i]);
+        }
+    }
+    aciertosNecesarios = sinRepetir.length;
+    console.log(palabraSecreta);
 }
 
 function dibujarLineas() {
     let rayitasHeight = rayitas.height;
     let lineSize = (calcularTamañoDelDash() + 3) * palabraSecreta.length;
-    let principio = calcularStartDelDash(lineSize);
+    principio = calcularStartDelDash(lineSize);
     let final = principio + lineSize;
     let baseline = rayitasHeight-1;
 
@@ -57,50 +105,41 @@ function dibujarLineas() {
     contexto.lineTo(final, baseline);
     contexto.stroke();
     contexto.closePath();
-    dibujarLetrasCorrectas(principio);
-    dibujarHorca();
 }
 
-function dibujarLetrasCorrectas(principio) {
+function dibujarLetrasCorrectas(principio, aciertos) {
     const contexto = letrasCorrectas.getContext("2d");
     contexto.canvas.width = window.innerWidth;
     let baseline = letrasCorrectas.height - 1;
     contexto.fillStyle = "#0A3871";
+    let posición;
+    let gap;
 
     if (window.innerWidth >= 270 && window.innerWidth <= 412) {
-        let posición = principio;
-        let gap = 4;
+        posición = principio;
+        gap = 4;
         contexto.font = "bold 2.6rem monospace";
-        for (let i = 0; i < palabraSecreta.length; i++) {
-            let letraWidth = contexto.measureText(palabraSecreta[i]).width;
-            contexto.fillText(palabraSecreta[i], (posición - gap), baseline);
-            contexto.moveTo((posición + letraWidth + gap), baseline);
-            posición = posición + letraWidth + gap;
-        }
     }
 
     if (window.innerWidth >= 413 && window.innerWidth <= 912) {
-        let posición = principio;
-        let gap = 4;
+        posición = principio - 3;
+        gap = 4;
         contexto.font = "bold 3.3rem monospace";
-        for (let i = 0; i < palabraSecreta.length; i++) {
-            let letraWidth = contexto.measureText(palabraSecreta[i]).width;
-            contexto.fillText(palabraSecreta[i], (posición - gap), baseline);
-            contexto.moveTo((posición + letraWidth + gap), baseline);
-            posición = posición + letraWidth + gap;
-        }
     }
 
     if (window.innerWidth >= 913) {
-        let posición = principio;
-        let gap = 4;
+        posición = principio - 3;
+        gap = 5;
         contexto.font = "bold 4rem monospace";
-        for (let i = 0; i < palabraSecreta.length; i++) {
-            let letraWidth = contexto.measureText(palabraSecreta[i]).width;
+    }
+
+    for (let i = 0; i < palabraSecreta.length; i++) {
+        let letraWidth = contexto.measureText(palabraSecreta[i]).width;
+        if (aciertos.includes(palabraSecreta[i])) {
             contexto.fillText(palabraSecreta[i], (posición - gap), baseline);
-            contexto.moveTo((posición + letraWidth + gap), baseline);
-            posición = posición + letraWidth + gap;
         }
+        contexto.moveTo((posición + letraWidth + gap), baseline);
+        posición = posición + letraWidth + gap;
     }
 }
 
@@ -125,7 +164,7 @@ function calcularStartDelDash(lineSize) {
     return start;
 }
 
-function dibujarHorca() {
+function dibujarHorca(vidas) {
     const contexto = horca.getContext("2d");
     let horcaWidth = window.innerWidth - 15;
     if (horcaWidth > 400) {
@@ -139,19 +178,67 @@ function dibujarHorca() {
     let baseMiddleOff = (baseEnd / 2) - 35;
     let top = horcaHeight / 10;
     let topBar = (horcaWidth / 5) * 3.5;
+    let torsoY = (horcaHeight / 4) * 2.3;
+    let radioCabeza = 22.5;
+    let anchoCuerpa = horcaWidth / 14;
+    let extremiLength = horcaHeight / 6;
+    let cuello = ((top + (radioCabeza * 3))) + 3;
 
-    contexto.lineWidth = 3;
+    contexto.lineWidth = 4;
     contexto.strokeStyle = "#0A3871";
     contexto.beginPath();
     contexto.moveTo(baseStart, baseline);
     contexto.lineTo(baseEnd, baseline);
-    contexto.stroke();
-    //Acá termina la base.
     contexto.moveTo(baseMiddleOff, baseline);
     contexto.lineTo(baseMiddleOff, top);
     contexto.lineTo(topBar, top);
-    contexto.lineTo(topBar, (top+30));
-    contexto.stroke();
-    //Acá termina la horca en sí.
-    contexto.closePath();
+    contexto.lineTo(topBar, (top + radioCabeza));
+    if (vidas == 7) {
+        contexto.stroke();
+    } 
+    contexto.moveTo((topBar + radioCabeza), (top + (radioCabeza * 2)));
+    contexto.arc(topBar, (top + (radioCabeza * 2)), radioCabeza, 0, 2*Math.PI)
+    if (vidas == 6) {
+        contexto.stroke();
+    }
+    contexto.moveTo(topBar, (top + (radioCabeza * 3)));
+    contexto.lineTo(topBar, torsoY);
+    if (vidas == 5) {
+        contexto.stroke();
+    }
+    contexto.lineTo((topBar - anchoCuerpa), (torsoY + extremiLength));
+    if (vidas == 4) {
+        contexto.stroke();
+    }
+    contexto.moveTo(topBar, torsoY);
+    contexto.lineTo((topBar + anchoCuerpa), (torsoY + extremiLength));
+    if (vidas == 3) {
+        contexto.stroke();
+    }
+    contexto.moveTo(topBar, cuello);
+    contexto.lineTo((topBar - anchoCuerpa), (cuello + extremiLength));
+    if (vidas == 2) {
+        contexto.stroke();
+    }
+    contexto.moveTo(topBar, cuello);
+    contexto.lineTo((topBar + anchoCuerpa), (cuello + extremiLength));
+    if (vidas <= 1) {
+        contexto.stroke();
+    }
+    if (vidas <= 0) {
+        console.log("PERDISTE.");
+    }
+}
+
+function clear() {
+    let limpiar = horca.getContext("2d");
+    limpiar.clearRect(0, 0, limpiar.canvas.width, limpiar.canvas.height);
+    limpiar = rayitas.getContext("2d");
+    limpiar.clearRect(0, 0, limpiar.canvas.width, limpiar.canvas.height);
+    limpiar = letrasCorrectas.getContext("2d");
+    limpiar.clearRect(0, 0, limpiar.canvas.width, limpiar.canvas.height);
+    errores.innerHTML = "";
+    vidas = 8;
+    aciertos = [];
+    iniciarJuego();
 }
