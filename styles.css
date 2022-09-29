@@ -10,14 +10,11 @@ body {
     display: flex;
     flex-flow: column;
     min-height: 99vh;
-
-    border: 3px solid darkorchid;
 }
 
 header {
     display: flex;
-
-    border: 2px solid red;
+    padding-top: 3px;
 }
 
 .main-app {
@@ -27,8 +24,6 @@ header {
     gap: 0.1rem;
     justify-content: top;
     align-items: center;
-
-    border: 2px solid green;
 }
 
 .palabra-nueva {
@@ -68,8 +63,6 @@ header {
     justify-content: center;
     gap: 0.5rem;
     padding-top: 0.7vh;
-
-    border: 2px solid cyan;
 }
 
 button {
@@ -99,4 +92,13 @@ button {
 footer {
     display: flex;
     justify-content: center;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }

@@ -2,13 +2,15 @@ const mainApp = document.querySelector(".main-app");
 const palabraNueva = document.querySelector(".palabra-nueva");
 const horca = document.querySelector(".horca");
 const letrasCorrectas = document.querySelector(".letras-correctas");
+const highlight = document.querySelector(".highlight");
 const rayitas = document.querySelector(".rayitas");
 const errores = document.querySelector(".errores");
 const boton1 = document.querySelector(".boton1");
 const boton2 = document.querySelector(".boton2");
 
-let palabrasSecretas = ["PERRO", "GATO", "MALALA", "DINERO", "DUDI", "MONTESANTO", "GENIO",
-"ESPALDA", "DOLOR", "FRACASADO", "PAJARITO", "TORSO", "CHETO"];
+let palabrasSecretas = ["PERRO", "GATO", "MALALA", "DINERO", "PILETA", "MONTESANTO", "GENIO",
+"ESPALDA", "DOLOR", "FRACASADO", "PAJARITO", "CINE", "CHETO", "MARIANA", "VIRGINIA", "AHORCADO",
+"BUFANDA"];
 
 let palabraSecreta = "";
 let principio = 0;
@@ -17,6 +19,7 @@ let vidas = 8;
 let aciertosNecesarios = 0;
 let caracteresVálidos = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Ñ",
 "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+let ganar = false;
 
 function iniciarJuego() {
     mainApp.style.display = "flex";
@@ -41,18 +44,23 @@ function iniciarJuego() {
 function jugar() {
     window.addEventListener("keydown", (e) => {
         let tecla = e.key.toUpperCase();
-        if (vidas <= 0) {
-            console.log("YA PERDISTES.");
+        if (vidas <= 0 || ganar == true) {
+            console.log("Iniciar nueva partida.");
         } else {
             if (palabraSecreta.includes(tecla)) {
                 if (aciertos.includes(tecla)) {
-                    console.log("Tecla correcta repetida.");
+                    rayitas.style.animation = "blink 0.5s linear 3";
+                    setTimeout(function() {
+                        rayitas.style.animation = ''}, 1500);
                 } else {
                     aciertos.push(tecla);
                     console.log(aciertos);
                     dibujarLetrasCorrectas(principio, aciertos);
                     if (aciertos.length == aciertosNecesarios) {
-                        console.log("GANASTESS.");
+                        setTimeout(function() {
+                            alert("¡Felicitaciones, ganaste!");
+                        }, 1000);
+                        ganar = true;
                     }
                 }
             } else {
@@ -60,7 +68,9 @@ function jugar() {
                         console.log("No es una tecla válida.");
                     } else {
                         if (errores.innerHTML.includes(tecla)) {
-                            console.log("Tecla incorrecta repetida.");
+                            errores.style.animation = "blink 0.5s linear 3";
+                    setTimeout(function() {
+                        errores.style.animation = ''}, 1500);
                         } else {
                             errores.innerHTML = errores.innerHTML + " " + tecla;
                             vidas = vidas - 1;
@@ -226,7 +236,9 @@ function dibujarHorca(vidas) {
         contexto.stroke();
     }
     if (vidas <= 0) {
-        console.log("PERDISTE.");
+        setTimeout(function() {
+            alert("Perdiste :(");
+        }, 1000);
     }
 }
 
@@ -240,5 +252,6 @@ function clear() {
     errores.innerHTML = "";
     vidas = 8;
     aciertos = [];
+    ganar = false;
     iniciarJuego();
 }
