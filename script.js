@@ -9,8 +9,10 @@ const boton1 = document.querySelector(".boton1");
 const boton2 = document.querySelector(".boton2");
 
 let palabrasSecretas = ["PERRO", "GATO", "MALALA", "DINERO", "PILETA", "MONTESANTO", "GENIO",
-"ESPALDA", "DOLOR", "FRACASADO", "PAJARITO", "CINE", "CHETO", "MARIANA", "VIRGINIA", "AHORCADO",
-"BUFANDA"];
+"ESPALDA", "DOLOR", "PAJARITO", "CINE", "MARIANA", "VIRGINIA", "AHORCADO",
+"BUFANDA", "PASTAFROLA", "JUEGO", "SOLITARIO", "BARCO", "USUFRUCTO", "CARAMELO", "CONTRATO",
+"AUMENTO", "SALARIO", "FIRMA", "CONFORME", "SEGURO", "EMERGENCIA", "CISNE", "POCAHONTAS",
+"SIRENITA", "RATA", "PLATA", "SORTEO", "MERIENDA"];
 
 let palabraSecreta = "";
 let principio = 0;
@@ -57,10 +59,10 @@ function jugar() {
                     console.log(aciertos);
                     dibujarLetrasCorrectas(principio, aciertos);
                     if (aciertos.length == aciertosNecesarios) {
-                        setTimeout(function() {
-                            alert("¡Felicitaciones, ganaste!");
-                        }, 1000);
                         ganar = true;
+                        errores.classList.add("typewriter");
+                        setTimeout(function() {errores.classList.add("rainbow");}, 2500);
+                        errores.innerHTML = "FELICITACIONES :D"
                     }
                 }
             } else {
@@ -195,7 +197,11 @@ function dibujarHorca(vidas) {
     let cuello = ((top + (radioCabeza * 3))) + 3;
 
     contexto.lineWidth = 4;
-    contexto.strokeStyle = "#0A3871";
+    if (vidas == 0) {
+        contexto.strokeStyle = "#DC143C";
+    } else {
+        contexto.strokeStyle = "#0A3871";
+    }
     contexto.beginPath();
     contexto.moveTo(baseStart, baseline);
     contexto.lineTo(baseEnd, baseline);
@@ -236,9 +242,12 @@ function dibujarHorca(vidas) {
         contexto.stroke();
     }
     if (vidas <= 0) {
-        setTimeout(function() {
-            alert("Perdiste :(");
-        }, 1000);
+        contexto.moveTo((topBar - (anchoCuerpa / 1.5)), cuello);
+        contexto.lineTo((topBar + (anchoCuerpa / 1.5)), cuello);
+        contexto.stroke();
+        errores.classList.add("typewriter");
+        errores.innerHTML = "La palabra era: " + palabraSecreta;
+
     }
 }
 
@@ -253,5 +262,7 @@ function clear() {
     vidas = 8;
     aciertos = [];
     ganar = false;
+    errores.classList.remove("typewriter");
+    errores.classList.remove("rainbow");
     iniciarJuego();
 }

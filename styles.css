@@ -14,7 +14,7 @@ body {
 
 header {
     display: flex;
-    padding-top: 3px;
+    padding-top: 7px;
 }
 
 .main-app {
@@ -94,11 +94,67 @@ footer {
     justify-content: center;
 }
 
+.typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0 auto;
+    max-width: fit-content;
+    max-height: fit-content;
+    letter-spacing: .10rem;
+    animation: 
+        typing 3.7s steps(50, end);
+}
+
+.rainbow {
+    animation: rainbow 3s linear;
+    animation-iteration-count: infinite;
+}
+
 @keyframes blink {
-    50% {
-        opacity: 0;
+    50% { opacity: 0 }
+    100% { opacity: 1 }
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes rainbow {
+    100%,0%{
+        color: rgb(255,0,0);
     }
-    100% {
-        opacity: 1;
+    8%{
+        color: rgb(255,127,0);
+    }
+    16%{
+        color: rgb(255,255,0);
+    }
+    25%{
+        color: rgb(127,255,0);
+    }
+    33%{
+        color: rgb(0,255,0);
+    }
+    41%{
+        color: rgb(0,255,127);
+    }
+    50%{
+        color: rgb(0,255,255);
+    }
+    58%{
+        color: rgb(0,127,255);
+    }
+    66%{
+        color: rgb(0,0,255);
+    }
+    75%{
+        color: rgb(127,0,255);
+    }
+    83%{
+        color: rgb(255,0,255);
+    }
+    91%{
+        color: rgb(255,0,127);
     }
 }
