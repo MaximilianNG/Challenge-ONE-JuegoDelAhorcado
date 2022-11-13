@@ -221,15 +221,15 @@ function dibujarLetrasCorrectas(principio, aciertos) {
     let gap;
 
     if (window.innerWidth >= 270 && window.innerWidth <= 412) {
-        posición = principio - 8;
-        gap = 4;
-        contexto.font = "bold 2.6rem monospace";
+        posición = principio;
+        gap = 3.8;
+        contexto.font = "bold 2.4rem monospace";
     }
 
     if (window.innerWidth >= 413 && window.innerWidth <= 912) {
         posición = principio - 3;
         gap = 4;
-        contexto.font = "bold 3.3rem monospace";
+        contexto.font = "bold 3.25rem monospace";
     }
 
     if (window.innerWidth >= 913) {
