@@ -28,6 +28,7 @@ let ganar = false;
 
 function iniciarJuego() {
     ingresarPalabraNueva.style.display = "none";
+    aclaracion.style.display = "none";
     mainApp.style.display = "flex";
     horca.style.display = "inherit";
     letrasCorrectas.style.display = "inherit";
