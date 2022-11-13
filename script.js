@@ -119,6 +119,9 @@ function agregarPalabraView() {
 
     inputPalabraNueva.addEventListener("input", (e) => {
         inputPalabraNueva.value = inputPalabraNueva.value.toUpperCase();
+        if (inputPalabraNueva.value.length > 1) {
+            inputPalabraNueva.value.slice(0, -1);
+        }
     })
     boton1.onclick = agregarPalabra;
 
@@ -218,7 +221,7 @@ function dibujarLetrasCorrectas(principio, aciertos) {
     let gap;
 
     if (window.innerWidth >= 270 && window.innerWidth <= 412) {
-        posición = principio;
+        posición = principio - 8;
         gap = 4;
         contexto.font = "bold 2.6rem monospace";
     }
