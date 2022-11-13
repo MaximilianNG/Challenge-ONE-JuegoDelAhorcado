@@ -14,7 +14,8 @@ const aclaracion = document.querySelector(".aclaración");
 
 let palabrasSecretas = ["PERRO", "GATO", "DINERO", "PILETA", "GENIO",
 "ESPALDA", "DOLOR", "PAJARO", "CINE", "AHORCADO", "JAVASCRIPT", "HTML", "PROGRAMACION", "CALIENTE",
-"FRIO", "SORTEO", "MERIENDA", "BRASIL", "OPORTUNIDAD", "GRACIAS"];
+"FRIO", "SORTEO", "MERIENDA", "BRASIL", "OPORTUNIDAD", "GRACIAS", "OFICINA", "PRENSA", "MINISTERIO",
+"DISEÑO", "REDACTAR", "VACACIONES", "RIHANNA", "SECRETO"];
 
 let palabraSecreta = "";
 let principio = 0;
@@ -251,10 +252,10 @@ function dibujarLetrasCorrectas(principio, aciertos) {
 function calcularTamañoDelDash() {
     let tamaño = 0;
     if (window.innerWidth >= 270 && window.innerWidth <= 412) {
-        tamaño = 22.4;
+        tamaño = 22.1;
     }
     if (window.innerWidth >= 413 && window.innerWidth <= 912) {
-        tamaño = 29;
+        tamaño = 28.5;
     }
     if (window.innerWidth >= 913) {
         tamaño = 35;
