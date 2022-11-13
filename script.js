@@ -75,7 +75,6 @@ function capturarInputTouchscreen(e) {
 
 function mainGameLoop(tecla) {
     if (vidas <= 0 || ganar == true) {
-        console.log("Iniciar nueva partida.");
     } else {
         if (palabraSecreta.includes(tecla)) {
             if (aciertos.includes(tecla)) {
@@ -88,7 +87,7 @@ function mainGameLoop(tecla) {
                 if (aciertos.length == aciertosNecesarios) {
                     ganar = true;
                     errores.classList.add("typewriter");
-                    setTimeout(function() {errores.classList.add("rainbow");}, 2500);
+                    setTimeout(function() {errores.classList.add("rainbow");}, 1000);
                     errores.innerHTML = "FELICITACIONES :D"
                 }
             }
@@ -99,7 +98,9 @@ function mainGameLoop(tecla) {
                         errores.style.animation = "blink 0.5s linear 3";
                 setTimeout(function() {
                     errores.style.animation = ''}, 1500);
-                    } else {
+                    } else {                    
+                        errores.classList.remove("typewriter");
+                        errores.classList.remove("rainbow");
                         errores.innerHTML = errores.innerHTML + " " + tecla;
                         vidas = vidas - 1;
                         dibujarHorca(vidas);
