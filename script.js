@@ -87,7 +87,7 @@ function mainGameLoop(tecla) {
                 if (aciertos.length == aciertosNecesarios) {
                     ganar = true;
                     errores.classList.add("typewriter");
-                    setTimeout(function() {errores.classList.add("rainbow");}, 1000);
+                    setTimeout(function() {errores.classList.add("rainbow");}, 700);
                     errores.innerHTML = "FELICITACIONES :D"
                 }
             }
