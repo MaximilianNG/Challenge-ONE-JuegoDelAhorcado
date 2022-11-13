@@ -26,14 +26,45 @@ header {
     align-items: center;
 }
 
-.palabra-nueva {
+.ingresar-palabra-nueva {
     display: none;
+    flex-flow: column;
+    flex-grow: 7;
+    padding-left: 7vw;
+    padding-top: 4vh; 
+    max-width: 89vw;
+    gap: 1rem;
+}
+
+.palabra-nueva {
+    font-family: "Inter";
+    font-weight: bolder;
+    font-size: 1.5rem;
+    color: #0A3871;
+}
+
+.input-palabra-nueva {
+    background-color: #F3F5FC;
+    min-height: 40vh;
+    max-width: 70vw;
+    font-family: "Inter";
+    font-weight: bolder;
+    font-size: 1.5em;
+    border-style: none;
+    outline: none;
+}
+
+.aclaración {
+    display: none;
+    font-family: 'Inter';
+    font-size: .8em;
+    color: #79818bfd;
 }
 
 .horca {
     display: none;
     max-width: 600px;
-    height: 350px;
+    height: 326px;
     padding-bottom: 2vh;
 }
 
@@ -48,11 +79,18 @@ header {
 }
 
 .errores {
-    padding-top: 2vh;
+    padding-top: 1.4vh;
     font-family: "Inter";
     font-weight: bolder;
     font-size: 1.2rem;
     letter-spacing: 0.6vw;
+}
+
+.inputLetra {
+    height: 24px;
+    width: 3rem;
+    text-align: center;
+    display: none;
 }
 
 .botones {

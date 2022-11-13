@@ -7,36 +7,41 @@ const rayitas = document.querySelector(".rayitas");
 const errores = document.querySelector(".errores");
 const boton1 = document.querySelector(".boton1");
 const boton2 = document.querySelector(".boton2");
+const input = document.querySelector("[data-input]");
+const inputPalabraNueva = document.querySelector("[data-input-palabra-nueva]")
+const ingresarPalabraNueva = document.querySelector(".ingresar-palabra-nueva");
+const aclaracion = document.querySelector(".aclaración");
 
-let palabrasSecretas = ["PERRO", "GATO", "MALALA", "DINERO", "PILETA", "MONTESANTO", "GENIO",
-"ESPALDA", "DOLOR", "PAJARITO", "CINE", "MARIANA", "VIRGINIA", "AHORCADO",
-"BUFANDA", "PASTAFROLA", "JUEGO", "SOLITARIO", "BARCO", "USUFRUCTO", "CARAMELO", "CONTRATO",
-"AUMENTO", "SALARIO", "FIRMA", "CONFORME", "SEGURO", "EMERGENCIA", "CISNE", "POCAHONTAS",
-"SIRENITA", "RATA", "PLATA", "SORTEO", "MERIENDA"];
+let palabrasSecretas = ["PERRO", "GATO", "DINERO", "PILETA", "GENIO",
+"ESPALDA", "DOLOR", "PAJARO", "CINE", "AHORCADO", "JAVASCRIPT", "HTML", "PROGRAMACION", "CALIENTE",
+"FRIO", "SORTEO", "MERIENDA", "BRASIL", "OPORTUNIDAD", "GRACIAS"];
 
 let palabraSecreta = "";
 let principio = 0;
 let aciertos = [];
 let vidas = 8;
 let aciertosNecesarios = 0;
+let touchscreen = false;
 let caracteresVálidos = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Ñ",
 "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 let ganar = false;
 
 function iniciarJuego() {
+    ingresarPalabraNueva.style.display = "none";
     mainApp.style.display = "flex";
     horca.style.display = "inherit";
     letrasCorrectas.style.display = "inherit";
     rayitas.style.display = "inherit";
 
     boton1.style.minHeight = "2.6rem";
-    boton1.innerHTML = "Nuevo juego";
+    boton1.innerHTML = "Nueva palabra";
     boton1.style.fontSize = "1rem";
     boton1.style.width = "15rem";
-    boton1.onclick = clear;
+    boton1.onclick = restart;
 
     boton2.style.width = "15rem";
     boton2.innerHTML = "Desistir";
+    boton2.onclick = desistir;
 
     elegirPalabraSecreta();
     dibujarLineas();
@@ -44,50 +49,133 @@ function iniciarJuego() {
 }
 
 function jugar() {
-    window.addEventListener("keydown", (e) => {
-        let tecla = e.key.toUpperCase();
-        if (vidas <= 0 || ganar == true) {
-            console.log("Iniciar nueva partida.");
+
+    if ("ontouchstart" in document.documentElement)
+    {
+        input.style.display = "inherit";
+        touchscreen = true;
+        input.addEventListener('input', capturarInputTouchscreen)
+    } else {
+        window.addEventListener("keydown", capturarInputTeclado)
+    }
+}
+
+function capturarInputTeclado(e) {
+    mainGameLoop(e.key.toUpperCase());
+}
+
+function capturarInputTouchscreen(e) {
+    if (input.value == null || input.value == "") {
+    } else {
+        mainGameLoop(e.data.toUpperCase());
+        input.value = input.value.toUpperCase();
+        input.select();
+    }   
+}
+
+function mainGameLoop(tecla) {
+    if (vidas <= 0 || ganar == true) {
+        console.log("Iniciar nueva partida.");
+    } else {
+        if (palabraSecreta.includes(tecla)) {
+            if (aciertos.includes(tecla)) {
+                rayitas.style.animation = "blink 0.5s linear 3";
+                setTimeout(function() {
+                    rayitas.style.animation = ''}, 1500);
+            } else {
+                aciertos.push(tecla);
+                dibujarLetrasCorrectas(principio, aciertos);
+                if (aciertos.length == aciertosNecesarios) {
+                    ganar = true;
+                    errores.classList.add("typewriter");
+                    setTimeout(function() {errores.classList.add("rainbow");}, 2500);
+                    errores.innerHTML = "FELICITACIONES :D"
+                }
+            }
         } else {
-            if (palabraSecreta.includes(tecla)) {
-                if (aciertos.includes(tecla)) {
-                    rayitas.style.animation = "blink 0.5s linear 3";
-                    setTimeout(function() {
-                        rayitas.style.animation = ''}, 1500);
+                if (!caracteresVálidos.includes(tecla)) {
                 } else {
-                    aciertos.push(tecla);
-                    console.log(aciertos);
-                    dibujarLetrasCorrectas(principio, aciertos);
-                    if (aciertos.length == aciertosNecesarios) {
-                        ganar = true;
-                        errores.classList.add("typewriter");
-                        setTimeout(function() {errores.classList.add("rainbow");}, 2500);
-                        errores.innerHTML = "FELICITACIONES :D"
+                    if (errores.innerHTML.includes(tecla)) {
+                        errores.style.animation = "blink 0.5s linear 3";
+                setTimeout(function() {
+                    errores.style.animation = ''}, 1500);
+                    } else {
+                        errores.innerHTML = errores.innerHTML + " " + tecla;
+                        vidas = vidas - 1;
+                        dibujarHorca(vidas);
                     }
                 }
-            } else {
-                    if (!caracteresVálidos.includes(tecla)) {
-                        console.log("No es una tecla válida.");
-                    } else {
-                        if (errores.innerHTML.includes(tecla)) {
-                            errores.style.animation = "blink 0.5s linear 3";
-                    setTimeout(function() {
-                        errores.style.animation = ''}, 1500);
-                        } else {
-                            errores.innerHTML = errores.innerHTML + " " + tecla;
-                            vidas = vidas - 1;
-                            dibujarHorca(vidas);
-                            console.log("Vidas left: " + vidas);
-                        }
-                    }
-            } 
-        }    
+        }
+        } 
+    }
+
+function agregarPalabraView() {
+    ingresarPalabraNueva.style.display = "flex";
+    aclaracion.style.display = "inherit";
+    boton1.innerHTML = "Guardar y empezar";
+    boton2.innerHTML = "Cancelar";
+
+    inputPalabraNueva.addEventListener("input", (e) => {
+        inputPalabraNueva.value = inputPalabraNueva.value.toUpperCase();
     })
+    boton1.onclick = agregarPalabra;
+
+    boton2.onclick = desistir;
+}
+
+function agregarPalabra() {
+    let palabra = inputPalabraNueva.value;
+    inputPalabraNueva.value = "";
+    palabrasSecretas.push(palabra);
+    iniciarJuego();
+}
+
+function desistir() {
+    restart();
+    mainApp.style.display = "none";
+    ingresarPalabraNueva.style.display = "none";
+    aclaracion.style.display = "none";
+    input.style.display = "none";
+    inputPalabraNueva.value = "";
+
+    if (touchscreen) {
+        input.removeEventListener("input", capturarInputTouchscreen)
+    } else {
+        window.removeEventListener("keydown", capturarInputTeclado)
+    }
+
+    boton1.innerHTML = "Iniciar juego";
+    boton1.style = `border-radius: 24px;
+    background-color: #0A3871;
+    color: white;
+    font-size: 1.3rem;
+    min-height: 6rem;
+    min-width: 14rem;
+    max-width: 20rem;`;
+
+    boton2.innerHTML = "Agregar nueva palabra";
+    boton2.style.width = "";
+    boton2.onclick = agregarPalabraView;
 }
 
 function elegirPalabraSecreta() {
-    palabraSecreta = palabrasSecretas[Math.floor(Math.random() * palabrasSecretas.length)];
+    if (palabraSecreta != "") {
+        let palabraPrevia = palabraSecreta;
+        // Elegir una palabra.
+        palabraSecreta = palabrasSecretas[Math.floor(Math.random() * palabrasSecretas.length)];
+        // Si es igual a la última que ya se usó, elegir otra hasta que no sea la misma.
+        while (palabraPrevia == palabraSecreta) {
+            palabraSecreta = palabrasSecretas[Math.floor(Math.random() * palabrasSecretas.length)];
+            if (palabraPrevia != palabraSecreta) {
+                break;
+            }
+        }
+    } else {
+        palabraSecreta = palabrasSecretas[Math.floor(Math.random() * palabrasSecretas.length)];
+    }
+    
     let sinRepetir = [];
+    //Sin repetir refiere a caracteres que no se repiten en la palabra secreta elegida.
     for (let i = 0; i < palabraSecreta.length; i++) {
         if (!sinRepetir.includes(palabraSecreta[i])) {
             sinRepetir.push(palabraSecreta[i]);
@@ -251,7 +339,7 @@ function dibujarHorca(vidas) {
     }
 }
 
-function clear() {
+function restart() {
     let limpiar = horca.getContext("2d");
     limpiar.clearRect(0, 0, limpiar.canvas.width, limpiar.canvas.height);
     limpiar = rayitas.getContext("2d");

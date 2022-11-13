@@ -23,17 +23,23 @@
         </header>
 
         <section class="main-app">
-            <div class="palabra-nueva">Ingrese palabra nueva</div>
             <canvas class="horca" width="270" height="350"></canvas>
             <canvas class="letras-correctas" width="270" height="50"></canvas>
             <canvas class="rayitas" width="270" height="5"></canvas>
             <div class="highlight"></div>
             <p class="errores"></p>
         </section>
+
+        <section class="ingresar-palabra-nueva">
+            <p class="palabra-nueva">Ingrese una palabra</p>
+            <input type="text" class="input-palabra-nueva" data-input-palabra-nueva maxlength="10">
+        </section>
     
         <section class="botones">
+            <input type="text" class="inputLetra" maxlength="1" data-input>
+            <div class="aclaración"><p><i class="fa-solid fa-circle-exclamation"></i> Máximo 10 letras, sin tildes.</p></div>
             <button class="boton1" onclick="iniciarJuego()">Iniciar juego</button>
-            <button class="boton2">Agregar nueva palabra</button>
+            <button class="boton2" onclick="agregarPalabraView()">Agregar nueva palabra</button>
         </section>
 
         <footer>
