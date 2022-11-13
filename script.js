@@ -222,8 +222,8 @@ function dibujarLetrasCorrectas(principio, aciertos) {
 
     if (window.innerWidth >= 270 && window.innerWidth <= 412) {
         posición = principio;
-        gap = 3.5;
-        contexto.font = "bold 2.15rem monospace";
+        gap = 3.8;
+        contexto.font = "bold 2.25rem monospace";
     }
 
     if (window.innerWidth >= 413 && window.innerWidth <= 912) {
@@ -251,7 +251,7 @@ function dibujarLetrasCorrectas(principio, aciertos) {
 function calcularTamañoDelDash() {
     let tamaño = 0;
     if (window.innerWidth >= 270 && window.innerWidth <= 412) {
-        tamaño = 24;
+        tamaño = 22.5;
     }
     if (window.innerWidth >= 413 && window.innerWidth <= 912) {
         tamaño = 29;
